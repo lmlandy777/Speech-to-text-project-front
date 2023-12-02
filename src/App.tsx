@@ -1,21 +1,22 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
+import './App.css'; // 确保创建一个App.css文件，并与此js文件放在同一目录下
 
 function App() {
   const [recognizedText, setRecognizedText] = useState('');
   const [key, setKey] = useState('');
-  const [lang, setLang] = useState("zh-CN"); // 默认中文
+  const [language, setLanguage] = useState("zh-CN");
 
   const languages: { [key: string]: string } = {
     "中文": "zh-CN",
     "英语": "en-US",
-    "法语": "fr-FR", 
+    "法语": "fr-FR",
     "日语": "ja-JP"
   };
 
   const startRecognition = () => {
     const speechConfig = SpeechConfig.fromSubscription(key, "eastasia");
-    speechConfig.speechRecognitionLanguage = languages[lang];
+    speechConfig.speechRecognitionLanguage = language;
 
     const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
     const recognizer = new SpeechRecognizer(speechConfig, audioConfig);
@@ -26,24 +27,31 @@ function App() {
       console.error("发生错误:", error);
       setRecognizedText("识别错误: " + (error as unknown as Error).message);
     });
-  }
-
+  };
 
   return (
-    <div>
-      <select value={lang} onChange={e => setLang(e.target.value)}>
-        <option value="中文">中文</option>
-        <option value="英语">英语</option>
-        <option value="法语">法语</option>
-        <option value="日语">日语</option>
-      </select>
-      <button onClick={startRecognition}>开始识别</button>
-      <input
-        value={key}
-        onChange={e => setKey(e.target.value)}
-        placeholder="Enter your speech key"
-      />
-      <textarea value={recognizedText} readOnly={true} />
+    <div className="app">
+      <div className="language-selector">
+        <select value={language} onChange={e => setLanguage(e.target.value)}>
+          {Object.keys(languages).map(lang => (
+            <option key={lang} value={languages[lang]}>{lang}</option>
+          ))}
+        </select>
+      </div>
+      <div className="recognition-button">
+        <button onClick={startRecognition}>开始识别</button>
+      </div>
+      <div className="api-key-input">
+        <input
+          type="text"
+          value={key}
+          onChange={e => setKey(e.target.value)}
+          placeholder="身份密钥"
+        />
+      </div>
+      <div className="text-output">
+        <textarea value={recognizedText} readOnly />
+      </div>
     </div>
   );
 }
