@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
-import './App.css'; // 确保创建一个App.css文件，并与此js文件放在同一目录下
+import './index.css';
+import './App.css';
 
 function App() {
   const [recognizedText, setRecognizedText] = useState('');
