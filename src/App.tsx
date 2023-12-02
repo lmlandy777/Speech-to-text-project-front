@@ -8,7 +8,9 @@ function App() {
 
   const languages: { [key: string]: string } = {
     "中文": "zh-CN",
-    "英语": "en-US"
+    "英语": "en-US",
+    "法语": "fr-FR", 
+    "日语": "ja-JP"
   };
 
   const startRecognition = () => {
@@ -32,6 +34,8 @@ function App() {
       <select value={lang} onChange={e => setLang(e.target.value)}>
         <option value="中文">中文</option>
         <option value="英语">英语</option>
+        <option value="法语">法语</option>
+        <option value="日语">日语</option>
       </select>
       <button onClick={startRecognition}>开始识别</button>
       <input
